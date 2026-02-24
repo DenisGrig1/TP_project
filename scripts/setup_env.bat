@@ -33,7 +33,6 @@ pip install -r "%REQUIREMENTS_FILE%"
 
 REM Запускаем тестовый скрипт
 python "%~dp0broken_env.py"
-pause
 if ERRORLEVEL 1 (
     echo Error occurred during smoke test.
     exit /b 1
