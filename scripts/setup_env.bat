@@ -40,3 +40,4 @@ if ERRORLEVEL 1 (
     echo Smoke test passed successfully.
     exit /b 0
 )
+pause
