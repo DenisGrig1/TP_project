@@ -27,9 +27,9 @@ conda info --envs | findstr /C:"^%ENV_NAME%$" > nul || (
     call conda create -y -n %ENV_NAME% python=%PYTHON_VERSION%
 )
 
-::REM Устанавливаем зависимости из requirements.txt
-::call conda activate %ENV_NAME%
-::pip install -r "%REQUIREMENTS_FILE%"
+REM Устанавливаем зависимости из requirements.txt
+call conda activate %ENV_NAME%
+pip install -r "%REQUIREMENTS_FILE%"
 
 REM Запускаем тестовый скрипт
 python "%~dp0broken_env.py"
