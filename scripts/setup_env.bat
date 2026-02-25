@@ -19,7 +19,7 @@ if errorlevel 1 goto :fail
 call :run_smoke
 if errorlevel 1 goto :fail
 
-echo [OK] Environment %ENV_NAME% is ready.
+echo [OK] Environment "%ENV_NAME%" is ready.
 goto :ok
 
 :find_conda
@@ -28,15 +28,15 @@ exit /b 0
 
 :ensure_env
 conda env list
-call %CONDA_BAT% create -n %ENV_NAME% python=%PYTHON_VERSION% -y
+call "%CONDA_BAT%" create -n "%ENV_NAME%" python=%PYTHON_VERSION% -y
 exit /b 0
 
 :install_requirements
-call %CONDA_BAT% run -n %ENV_NAME% python -m pip install -r requirements.txt
+call "%CONDA_BAT%" run -n "%ENV_NAME%" python -m pip install -r requirements.txt
 exit /b 0
 
 :run_smoke
-call %CONDA_BAT% run -n %ENV_NAME% python broken_env.py
+call "%CONDA_BAT%" run -n "%ENV_NAME%" python broken_env.py
 exit /b 0
 
 :fail
@@ -50,7 +50,7 @@ goto :finish
 
 :finish
 echo.
-if not %NO_PAUSE%=="1" (
+if not "%NO_PAUSE%"=="1" (
   echo Press any key to close...
   pause >nul
 )
