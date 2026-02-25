@@ -1,1 +1,57 @@
-
+variant_id: '04'
+theme: Погода (архив) - Лондон
+source_type: open_meteo
+entity:
+  city_id: GB_LON
+  city_name: Лондон
+  country_code: GB
+  latitude: 51.5072
+  longitude: -0.1276
+  timezone: Europe/London
+api:
+  base_url: https://archive-api.open-meteo.com/v1/archive
+  method: GET
+  params:
+    latitude: 51.5072
+    longitude: -0.1276
+    timezone: Europe/London
+    hourly:
+    - temperature_2m
+    - relative_humidity_2m
+    - precipitation
+    - wind_speed_10m
+  notes: Ключ не требуется. Даты задаются параметрами start_date/end_date для archive.
+normalized_schema:
+- name: ts
+  type: timestamp
+  desc: Дата-время измерения (локальная TZ).
+- name: temperature_2m
+  type: float
+  desc: Температура на 2м, °C.
+- name: relative_humidity_2m
+  type: float
+  desc: Отн. влажность, %.
+- name: precipitation
+  type: float
+  desc: Осадки, мм.
+- name: wind_speed_10m
+  type: float
+  desc: Скорость ветра, км/ч или м/с (уточнить в docs).
+- name: city_id
+  type: string
+  desc: ID города из reference/cities.csv.
+kpis:
+- Средняя температура по дням (T_mean).
+- Суммарные осадки по дням (P_sum).
+- Топ-5 дней по максимальной скорости ветра.
+- Количество часов с осадками > 0 (rainy_hours) по дням.
+dq_rules:
+- ts не NULL, монотонно возрастает внутри одной загрузки.
+- temperature_2m в диапазоне [-80; +60].
+- relative_humidity_2m в диапазоне [0; 100].
+- precipitation >= 0.
+- Дубликаты по (city_id, ts) запрещены.
+dashboard_questions:
+- Как менялась температура по дням? Есть ли резкие скачки?
+- Сколько было 'дождливых часов' по дням и какие дни лидируют?
+- Связь ветра и осадков (scatter/корреляция на дневных агрегатах).
