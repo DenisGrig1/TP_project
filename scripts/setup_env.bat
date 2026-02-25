@@ -3,4 +3,4 @@ py -m venv .venv
 pip install -r requirements.txt
 python -c "import sem2_de; print('ok')"
 python -m sem2_de.cli --help
-python -m sem2_de.cli extract --config ..\configs\variant_01.yml
+python -m sem2_de.cli extract --config
