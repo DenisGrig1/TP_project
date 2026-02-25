@@ -23,19 +23,20 @@ echo [OK] Environment "%ENV_NAME%" is ready.
 goto :ok
 
 :find_conda
-rem TODO: set CONDA_BAT=...
+set CONDA_BAT =  where conda
 exit /b 0
 
 :ensure_env
-rem TODO: conda env list + conda create
+conda env list
+call "%CONDA_BAT%" create -n "%ENV_NAME%" python=%PYTHON_VERSION% -y
 exit /b 0
 
 :install_requirements
-rem TODO: conda run -n ... python -m pip install -r requirements.txt
+call "%CONDA_BAT%" run -n "%ENV_NAME%" python -m pip install -r requirements.txt
 exit /b 0
 
 :run_smoke
-rem TODO: conda run -n ... python broken_env.py
+call "%CONDA_BAT%" run -n "%ENV_NAME%" python broken_env.py
 exit /b 0
 
 :fail
