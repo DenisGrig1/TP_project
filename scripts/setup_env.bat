@@ -23,7 +23,7 @@ echo [OK] Environment "%ENV_NAME%" is ready.
 goto :ok
 
 :find_conda
-set CONDA_BAT = where conda
+set "CONDA_BAT=where conda"
 exit /b 0
 
 :ensure_env
