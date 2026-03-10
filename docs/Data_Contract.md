@@ -4,10 +4,10 @@
 - Название API/системы: https://archive-api.open-meteo.com/v1/archive
 - Endpoint/метод: get
 - Параметры запроса:
-    latitude: 51.5072
-    longitude: -0.1276
-    timezone: Europe/London
-    hourly:
+   - latitude: 51.5072
+   - longitude: -0.1276
+   - timezone: Europe/London
+   - hourly:
     - temperature_2m
     - relative_humidity_2m
     - precipitation
