@@ -8,10 +8,10 @@
    - longitude: -0.1276
    - timezone: Europe/London
    - hourly:
-    - temperature_2m
-    - relative_humidity_2m
-    - precipitation
-    - wind_speed_10m
+    -- temperature_2m
+    -- relative_humidity_2m
+    -- precipitation
+    -- wind_speed_10m
 - Частота обновления: каждый час
 
 ## 2. Владение и ответственность
