@@ -1,7 +1,7 @@
 import requests
 import yaml
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 
 try:
     with open("variant_4.yml", "r", encoding="utf-8") as file:
