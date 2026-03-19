@@ -3,6 +3,10 @@ import yaml
 import json
 from datetime import datetime
 
+print("Введите дату начала, затем дату конца периода измерений в формате ГГГГ-ММ-ДД (например: 2026-02-18)")
+start_date = datetime.strptime(input("Начало измерений: "), "%Y-%m-%d")
+end_date = datetime.strptime(input("Конец измерений: "), "%Y-%m-%d")
+
 try:
     with open("variant_4.yml", "r", encoding="utf-8") as file:
         config = yaml.safe_load(file)
@@ -13,7 +17,9 @@ try:
             "method": config["api"]["method"],
             "params": config["api"]["params"]
         }
-        
+    week2_fields["params"]["start_date"] = datetime.strftime(start_date, "%Y-%m-%d")
+    week2_fields["params"]["end_date"] = datetime.strftime(end_date, "%Y-%m-%d")
+
     print(f"Вариант: {week2_fields['variant_id']}")
     print(f"Источник: {week2_fields['source_type']}")
     print(f"URL: {week2_fields['base_url']}")
