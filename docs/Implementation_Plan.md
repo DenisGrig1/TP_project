@@ -15,16 +15,20 @@
 
 ## 4. Схема данных
 ### 4.1 Raw слой
-- Таблица/файл:
-- Ключи:
-- Пример записи:
+- Таблица/файл: 2026-03-19_17-13-07.json
+- Ключи: 
+- Пример записи: 
 
 ### 4.2 Normalized слой
 - Таблица:
+  <img width="734" height="180" alt="image" src="https://github.com/user-attachments/assets/e5c72c79-11fe-4779-93c0-2c67873d940f" />
 - Поля и типы:
+  <img width="322" height="98" alt="image" src="https://github.com/user-attachments/assets/09d77a60-cae6-46f2-859d-bd7162a9f389" />
+
 
 ### 4.3 Mart слой (агрегаты)
 - Таблица:
+- 
 - Периодичность:
 - KPI:
 
