@@ -28,9 +28,15 @@
 
 ### 4.3 Mart слой (агрегаты)
 - Таблица:
-- 
-- Периодичность:
+<img width="987" height="216" alt="image" src="https://github.com/user-attachments/assets/0e35577e-4aba-4b06-b6ec-1e99f37348c9" />
+
+<img width="686" height="219" alt="image" src="https://github.com/user-attachments/assets/a7c50db0-0733-4c97-b49e-4fc583f87274" />
+- Периодичность: daily
 - KPI:
+  - Средняя температура по дням (T_mean).
+  - Суммарные осадки по дням (P_sum).
+  - Топ-5 дней по максимальной скорости ветра.
+  - Количество часов с осадками > 0 (rainy_hours) по дням.
 
 ## 5. Data Quality (DQ)
 Список проверок и где они запускаются.
