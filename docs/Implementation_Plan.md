@@ -22,6 +22,7 @@
 ### 4.2 Normalized слой
 - Таблица:
   <img width="734" height="180" alt="image" src="https://github.com/user-attachments/assets/e5c72c79-11fe-4779-93c0-2c67873d940f" />
+
 - Поля и типы:
   <img width="322" height="98" alt="image" src="https://github.com/user-attachments/assets/09d77a60-cae6-46f2-859d-bd7162a9f389" />
 
@@ -31,6 +32,7 @@
 <img width="987" height="216" alt="image" src="https://github.com/user-attachments/assets/0e35577e-4aba-4b06-b6ec-1e99f37348c9" />
 
 <img width="686" height="219" alt="image" src="https://github.com/user-attachments/assets/a7c50db0-0733-4c97-b49e-4fc583f87274" />
+
 - Периодичность: daily
 - KPI:
   - Средняя температура по дням (T_mean).
