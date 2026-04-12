@@ -152,9 +152,11 @@ def build_mart(normalized_path: Path, config: dict, base_dir: Path, logger: logg
         Средняя_температура=('Температура', 'mean'),
         Сумма_осадков=('Осадки', 'sum'),
         Колво_часов_с_осадками=('Осадки', lambda x: (x > 0).sum())
+        Скорость_ветра=('Скорость ветра', 'mean')
     ).reset_index()
 
     kpi_df['Средняя_температура'] = kpi_df['Средняя_температура'].round(1)
+    kpi_df['Скорость_ветра'] = kpi_df['Скорость_ветра'].round(1)
     kpi_df['city_id'] = config["entity"]["city_id"]
 
     # Обогащение данными о городе
