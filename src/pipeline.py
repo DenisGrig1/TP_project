@@ -1,5 +1,5 @@
 #cd C:\Users\Denis\anaconda_projects\ddf91dc2-9e39-452c-92b7-90426cb2bede\project
-#python pipeline.py --config configs/variant_4.yml --mode full
+#python src/pipeline.py --config configs/variant_4.yml --mode full
 
 import argparse
 import json
@@ -13,6 +13,9 @@ import pandas as pd
 import requests
 import yaml
 from sqlalchemy import create_engine, inspect, text
+
+# --- Импорт функций DQ ---
+from demo_pipeline.dq import run_dq_checks
 
 # ------------------------------------------------------------
 # 1. Настройка логирования
@@ -60,13 +63,10 @@ def write_state(state_path: Path, state: dict) -> None:
 def extract(config: dict, state: dict, mode: str, base_dir: Path, logger: logging.Logger):
     params = config["api"]["params"].copy()
     
-    # Определяем start_date
     if mode == "incremental" and state.get("last_successful_watermark"):
-        # Берем следующий день после watermark
         start_date = datetime.strptime(state["last_successful_watermark"], "%Y-%m-%d") + timedelta(days=1)
         logger.info(f"Incremental mode: fetching data from {start_date.date()}")
     else:
-        # По умолчанию берем 30 дней от текущей даты
         start_date = datetime.now() - timedelta(days=30)
         logger.info(f"Full mode (or no watermark): fetching data from {start_date.date()}")
 
@@ -75,7 +75,6 @@ def extract(config: dict, state: dict, mode: str, base_dir: Path, logger: loggin
     params["start_date"] = start_date.strftime("%Y-%m-%d")
     params["end_date"] = end_date.strftime("%Y-%m-%d")
 
-    # Выполняем запрос
     try:
         r = requests.get(config["api"]["base_url"], params=params, timeout=10)
         r.raise_for_status()
@@ -84,7 +83,6 @@ def extract(config: dict, state: dict, mode: str, base_dir: Path, logger: loggin
         logger.error(f"API request failed: {e}")
         raise
 
-    # Сохраняем raw-данные
     run_tag = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H-%M-%S")
     raw_path = base_dir / "data" / "raw" / f"raw_{run_tag}.json"
     raw_path.parent.mkdir(parents=True, exist_ok=True)
@@ -104,21 +102,17 @@ def transform(raw_path: Path, config: dict, base_dir: Path, logger: logging.Logg
 
     df = pd.DataFrame(raw_data["hourly"])
     
-    # Приведение типов и очистка
     df["time"] = pd.to_datetime(df["time"], errors="coerce")
     df["relative_humidity_2m"] = pd.to_numeric(df["relative_humidity_2m"], errors="coerce")
     df["city_id"] = config["entity"]["city_id"]
 
-    # Удаление строк с некорректным временем и дубликатов (business key = 'time')
     df = df.dropna(subset=["time"])
     df = df.drop_duplicates(subset=["time"], keep="first")
     df = df.sort_values("time").reset_index(drop=True)
 
-    # Обработка пропусков
     df["precipitation"] = df["precipitation"].fillna(0)
     df = df.dropna(subset=["temperature_2m"])
 
-    # Переименование столбцов
     df.columns = [
         "Время, ГГГГ-ММ-ДД ЧЧ:ММ:СС",
         "Температура, °C",
@@ -134,24 +128,74 @@ def transform(raw_path: Path, config: dict, base_dir: Path, logger: logging.Logg
     df.to_csv(normalized_path, index=False, encoding="utf-8")
     
     logger.info(f"Saved normalized dataset: {normalized_path.name}, rows={len(df)}")
+    
+    # --- Запуск DQ проверок ---
+    logger.info("Running DQ checks on normalized data...")
+    dq_results = run_dq_checks(df, config)
+    
+    # Сохраняем DQ отчеты в папку docs
+    docs_dir = base_dir / "docs"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    
+    dq_report_path = docs_dir / f"dq_report_{run_tag}.json"
+    dq_md_path = docs_dir / f"dq_report_{run_tag}.md"
+    
+    with open(dq_report_path, "w", encoding="utf-8") as f:
+        json.dump(dq_results, f, ensure_ascii=False, indent=2, default=str)
+        
+    # Генерируем Markdown отчет
+    generate_dq_markdown_report(dq_results, dq_md_path, config['entity']['city_name'])
+    
+    # Логируем статус проверок
+    for res in dq_results:
+        if res['status'] != 'PASS':
+            logger.warning(f"DQ Check '{res['check']}' status: {res['status']} - {res['message']}")
+    
     return normalized_path
+
+def generate_dq_markdown_report(results: list[dict], output_path: Path, dataset_name: str):
+    """Генерирует Markdown отчет по результатам DQ проверок."""
+    md_lines = [
+        f"# DQ Report for {dataset_name}",
+        f"Generated at: {datetime.now().isoformat(timespec='seconds')}",
+        "",
+        "| Check | Status | Level | Message |",
+        "|---|---|---|---|"
+    ]
+    for row in results:
+        md_lines.append(f"| {row['check']} | **{row['status']}** | {row['level']} | {row['message']} |")
+    
+    md_lines.append("")
+    md_lines.append("## Details")
+    for row in results:
+        if row['status'] != 'PASS':
+            md_lines.append(f"### {row['check']}")
+            md_lines.append(f"- **Status**: {row['status']}")
+            md_lines.append(f"- **Level**: {row['level']}")
+            md_lines.append(f"- **Message**: {row['message']}")
+            md_lines.append(f"- **Details**:")
+            for k, v in row['details'].items():
+                md_lines.append(f"  - {k}: {v}")
+            md_lines.append("")
+            
+    output_path.write_text("\n".join(md_lines), encoding="utf-8")
+    return output_path
 
 # ------------------------------------------------------------
 # 5. Построение витрины (Build Mart)
 # ------------------------------------------------------------
 def build_mart(normalized_path: Path, config: dict, base_dir: Path, logger: logging.Logger) -> Path:
+    # ... (код без изменений)
     df = pd.read_csv(normalized_path, parse_dates=['Время, ГГГГ-ММ-ДД ЧЧ:ММ:СС'])
     df.columns = ['Время', 'Температура', 'Влажность', 'Осадки', 'Скорость ветра', 'city_id']
     df['Дата'] = df['Время'].dt.date
 
-    # Загрузка справочника городов
     ref_cities = pd.read_csv(base_dir / "reference" / "cities.csv")
 
-    # Расчет KPI
     kpi_df = df.groupby('Дата').agg(
         Средняя_температура=('Температура', 'mean'),
         Сумма_осадков=('Осадки', 'sum'),
-        Колво_часов_с_осадками=('Осадки', lambda x: (x > 0).sum())
+        Колво_часов_с_осадками=('Осадки', lambda x: (x > 0).sum()),
         Скорость_ветра=('Скорость ветра', 'mean')
     ).reset_index()
 
@@ -159,7 +203,6 @@ def build_mart(normalized_path: Path, config: dict, base_dir: Path, logger: logg
     kpi_df['Скорость_ветра'] = kpi_df['Скорость_ветра'].round(1)
     kpi_df['city_id'] = config["entity"]["city_id"]
 
-    # Обогащение данными о городе
     merged_kpi_df = kpi_df.merge(ref_cities, on="city_id", how="left")
 
     run_tag = normalized_path.stem.replace("normalized_", "")
@@ -174,6 +217,7 @@ def build_mart(normalized_path: Path, config: dict, base_dir: Path, logger: logg
 # 6. Загрузка в БД (Load) с идемпотентностью
 # ------------------------------------------------------------
 def load_mart(mart_path: Path, config: dict, base_dir: Path, mode: str, logger: logging.Logger) -> int:
+    # ... (код без изменений)
     table_name = "mart_variant_04"
     connection_url = "postgresql+psycopg2://denis:denis@localhost:5432/analytics"
     engine = create_engine(connection_url)
@@ -269,3 +313,4 @@ if __name__ == "__main__":
     result = run_pipeline(Path(args.config), mode=args.mode)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     sys.exit(0 if result.get("status") == "ok" else 1)
+
