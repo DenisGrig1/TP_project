@@ -14,7 +14,7 @@ def main():
     # Проверка импортов
     packages = ["pandas", "numpy", "requests", "pyyaml", "json", 
         "sqlalchemy", "psycopg2-binary", "matplotlib", "pytest", "scikit-learn",
-        "argparse", "datetime", "pathlib"]
+        "argparse", "datetime", "pathlib", "ipynbname"]
     print("\nChecking required packages:")
     
     missing = []
