@@ -11,3 +11,4 @@ scikit-learn
 argparse
 datetime
 pathlib
+ipynbname
