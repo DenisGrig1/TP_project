@@ -1,0 +1,39 @@
+api:
+  base_url: https://archive-api.open-meteo.com/v1/archive
+  method: GET
+  params:
+    end_date: '2026-04-18'
+    hourly:
+    - temperature_2m
+    - relative_humidity_2m
+    - precipitation
+    - wind_speed_10m
+    latitude: 51.5072
+    longitude: -0.1276
+    start_date: '2026-03-19'
+    timezone: Europe/London
+dq_rules:
+  humidity_range:
+    collumn: relative_humidity_2m
+    max: 100
+    min: 0
+  non_negative:
+    collumn: precipitation
+  not_null:
+    collumn: time
+  temperature_range:
+    collumn: temperature_2m
+    max: 60
+    min: -80
+  unique_key:
+    collumns:
+    - time
+    - city_id
+entity:
+  city_id: GB_LON
+  city_name: London
+  country_code: GB
+  latitude: 51.5072
+  longitude: -0.1276
+  timezone: Europe/London
+variant_id: 4
