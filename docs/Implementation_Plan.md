@@ -15,29 +15,25 @@
 
 ## 4. Схема данных
 ### 4.1 Raw слой
-- Таблица/файл: 2026-03-19_17-13-07.json
+- [Таблица/файл:](data/raw/raw.json)
 - Ключи: Ключ не требуется. Даты задаются параметрами start_date/end_date для archive
-- Пример записи: 2026-03-19_17-13-07.json
+- Пример записи: raw.json
 
 ### 4.2 Normalized слой
 - Таблица:
-<img width="734" height="180" alt="image" src="https://github.com/user-attachments/assets/e5c72c79-11fe-4779-93c0-2c67873d940f" />
+<img width="661" height="429" alt="image" src="https://github.com/user-attachments/assets/3f94d0f5-93c2-4fe5-b793-0db40a816348" />
 
 - Поля и типы:
-<img width="322" height="98" alt="image" src="https://github.com/user-attachments/assets/09d77a60-cae6-46f2-859d-bd7162a9f389" />
-
+<img width="309" height="113" alt="image" src="https://github.com/user-attachments/assets/240e4d40-371c-4baf-90ca-e535df64d357" />
 
 ### 4.3 Mart слой (агрегаты)
 - Таблица:
-<img width="987" height="216" alt="image" src="https://github.com/user-attachments/assets/0e35577e-4aba-4b06-b6ec-1e99f37348c9" />
-
-<img width="686" height="219" alt="image" src="https://github.com/user-attachments/assets/a7c50db0-0733-4c97-b49e-4fc583f87274" />
+<img width="1077" height="426" alt="image" src="https://github.com/user-attachments/assets/165ae31a-6491-4ee0-b3a1-5d2551e37daa" />
 
 - Периодичность: daily
 - KPI:
   - Средняя температура по дням (T_mean).
   - Суммарные осадки по дням (P_sum).
-  - Топ-5 дней по максимальной скорости ветра.
   - Количество часов с осадками > 0 (rainy_hours) по дням.
 
 ## 5. Data Quality (DQ)
