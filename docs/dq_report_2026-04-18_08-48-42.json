@@ -1,0 +1,73 @@
+[
+  {
+    "check": "non_empty_dataset",
+    "status": "PASS",
+    "level": "FAIL",
+    "message": "row_count = 744, min_rows = 1",
+    "details": {
+      "row_count": 744,
+      "min_rows": 1
+    }
+  },
+  {
+    "check": "not_null_time",
+    "status": "PASS",
+    "level": "FAIL",
+    "message": "time: null_count = 0",
+    "details": {
+      "column": "time",
+      "null_count": 0
+    }
+  },
+  {
+    "check": "unique_business_key",
+    "status": "PASS",
+    "level": "FAIL",
+    "message": "duplicate_rows_on_key = 0",
+    "details": {
+      "columns": [
+        "time",
+        "city_id"
+      ],
+      "duplicate_rows": 0,
+      "sample": []
+    }
+  },
+  {
+    "check": "range_temperature_2m",
+    "status": "PASS",
+    "level": "WARNING",
+    "message": "temperature_2m: out_of_range = 0",
+    "details": {
+      "column": "temperature_2m",
+      "min": -80,
+      "max": 60,
+      "bad_count": 0,
+      "sample": []
+    }
+  },
+  {
+    "check": "range_relative_humidity_2m",
+    "status": "PASS",
+    "level": "WARNING",
+    "message": "relative_humidity_2m: out_of_range = 0",
+    "details": {
+      "column": "relative_humidity_2m",
+      "min": 0,
+      "max": 100,
+      "bad_count": 0,
+      "sample": []
+    }
+  },
+  {
+    "check": "non_negative_precipitation",
+    "status": "PASS",
+    "level": "FAIL",
+    "message": "precipitation: negative_values = 0",
+    "details": {
+      "column": "precipitation",
+      "bad_count": 0,
+      "sample": []
+    }
+  }
+]
