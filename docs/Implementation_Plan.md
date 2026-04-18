@@ -15,7 +15,7 @@
 
 ## 4. Схема данных
 ### 4.1 Raw слой
-- Таблица/файл: [raw.json](./data/raw/raw.json)
+- Таблица/файл: [raw.json](../data/raw/raw.json)
 - Ключи: Ключ не требуется. Даты задаются параметрами start_date/end_date для archive
 - Пример записи: raw.json
 
