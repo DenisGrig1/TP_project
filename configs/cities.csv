@@ -1,0 +1,9 @@
+city_id,city_name,country_code,latitude,longitude,timezone
+RU_MOW,Москва,RU,55.7558,37.6176,Europe/Moscow
+RU_LED,Санкт-Петербург,RU,59.9311,30.3609,Europe/Moscow
+RU_NSK,Новосибирск,RU,55.0084,82.9357,Asia/Novosibirsk
+GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
+US_NYC,Нью-Йорк,US,40.7128,-74.006,America/New_York
+JP_TYO,Токио,JP,35.6762,139.6503,Asia/Tokyo
+AU_SYD,Сидней,AU,-33.8688,151.2093,Australia/Sydney
+BR_RIO,Рио-де-Жанейро,BR,-22.9068,-43.1729,America/Sao_Paulo
