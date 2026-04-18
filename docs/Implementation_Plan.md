@@ -39,12 +39,15 @@
   - Количество часов с осадками > 0 по дням.
 
 ## 5. Data Quality (DQ)
-Список проверок и где они запускаются.
-- NOT NULL:
-- Диапазоны:
-- Уникальность:
-- Связность (referential):
-- Freshness:
+
+| Check | Layer | Level | Description | Failure condition |
+|---|---|---|---|---|
+| check_non_empty | normalized | FAIL | Таблица не пустая | row_count = 0 |
+| check_not_null | normalized | FAIL | Временная метка time должна быть заполнена. | Содержит NULL. |
+| check_unique_key | normalized | FAIL | Все комбинации time и city_id должны быть уникальны | dup_count > 0 |
+| check_numeric_range(temperature_2m) | normalized | WARNING | Температура должна быть в допустимом диапазоне. | Значение < -80 или > 60. |
+| check_numeric_range(relative_humidity_2m) | normalized | WARNING | Влажность должна быть в допустимом диапазоне. | Значение < 0 или > 100. |
+| check_non_negative(precipitation) | normalized | WARNING | Значения осадков должны быть не меньше 0. | bad_count > 0. |
 
 ## 6. Инкрементальность и идемпотентность
 - Что будет, если запуск повторить 2 раза? При повторном запуске full данные полностью перезапишутся. При запуске incremental дополнятся новыми данными в промежутке от последней даты в watermark до текущего дня.
