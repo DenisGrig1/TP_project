@@ -12,9 +12,9 @@ def main():
     print(f"Platform: {sys.platform}")
     
     # Проверка импортов
-    packages = ["pandas", "numpy", "requests", "pyyaml", "json", 
-        "sqlalchemy", "psycopg2-binary", "matplotlib", "pytest", "scikit-learn",
-        "argparse", "datetime", "pathlib", "ipynbname"]
+    packages = ["pandas", "numpy", "requests", "pyyaml",  
+        "sqlalchemy", "psycopg2-binary", "matplotlib", "pytest", 
+        "scikit-learn", "argparse", "ipynbname"]
     print("\nChecking required packages:")
     
     missing = []
