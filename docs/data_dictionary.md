@@ -1,3 +1,5 @@
+# Data Dictionary — mart_daily
+
 | column | business meaning | unit | notes/example |
 |---|---|---|---|
 |date|Календарная дата агрегации (день)|YYYY-MM-DD|агрегировано в UTC|
