@@ -1,4 +1,4 @@
-date,temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,rainy_hours,city_id,city_name,country_code,latitude,longitude,timezone
+date,avg_temperature_2m,avg_relative_humidity_2m,sum_precipitation,avg_wind_speed_10m,rainy_hours,city_id,city_name,country_code,latitude,longitude,timezone
 2026-03-19,10.2,66.2,0.0,8.3,0,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
 2026-03-20,8.3,73.1,0.0,7.2,0,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
 2026-03-21,7.5,73.5,0.0,6.4,0,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
@@ -29,4 +29,4 @@ date,temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,rainy_hour
 2026-04-15,14.1,74.7,1.0,16.0,7,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
 2026-04-16,13.4,69.7,0.5,14.5,5,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
 2026-04-17,13.8,69.8,0.7,12.8,3,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
-2026-04-18,13.3,60.3,0.1,10.8,1,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
+2026-04-18,13.2,58.5,0.1,9.7,1,GB_LON,Лондон,GB,51.5072,-0.1276,Europe/London
