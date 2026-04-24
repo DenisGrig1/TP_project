@@ -17,7 +17,7 @@ def ToMart(base_dir: Path, normalized_path: Path):
         "rainy_hour" : "sum"
     }).round(1).reset_index()
     mart_df["city_id"] = df["city_id"][0]
-    mart_df = mart_df.rename(columns= {"time" : "date", "rainy_hour" : "rainy_hours"})
+    mart_df.columns = ["date", "avg_temperature_2m", "avg_relative_humidity_2m", "sum_precipitation", "avg_wind_speed_10m", "rainy_hours", "city_id"]
     
     ref_cities = pd.read_csv(base_dir / "configs" / "cities.csv")
     mart_df = mart_df.merge(
