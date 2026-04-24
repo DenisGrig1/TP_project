@@ -1,7 +1,7 @@
 # Data Contract - Variant 04
 
 **Contract version:** 0.5  
-**Last updated:** 2026-03-18  
+**Last updated:** 2026-04-24  
 **Owner:** <Денис Григорьев>
 
 ## 1. Источник
