@@ -19,10 +19,10 @@ def CheckSQL(table_name, engine):
 
 
 def LoadToSQL(base_dir: Path, mart_path: Path):
-    result = RunDocker(base_dir)
-    if result == 0:
-        print ("STOP LOADING TO SQL")
-        return 0
+    #result = RunDocker(base_dir)
+    #if result == 0:
+    #    print ("STOP LOADING TO SQL")
+    #    return 0
 
     df = pd.read_csv(mart_path)
     table_name = "mart_sql"
