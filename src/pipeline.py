@@ -1,4 +1,3 @@
-from encodings import normalize_encoding
 import extract
 import transform
 import mart
