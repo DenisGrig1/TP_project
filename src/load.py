@@ -26,7 +26,7 @@ def LoadToSQL(base_dir: Path, mart_path: Path):
 
     df = pd.read_csv(mart_path)
     table_name = "mart_sql"
-    connection_url = "postgresql://denis:denis@localhost:5433/test_sql"
+    connection_url = "postgresql://denis:denis@localhost:5432/analytics"
     engine = create_engine(connection_url)
 
     with engine.begin() as conn:
