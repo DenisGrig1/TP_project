@@ -1,5 +1,11 @@
+import json
+import yaml
 import pandas as pd
 from pathlib import Path
+from datetime import datetime
+
+def utc_now_tag() -> str:
+    return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 def build_result(check, status, level, message, details=None):
     return {
@@ -97,4 +103,16 @@ def run_dq(normalized_path: Path, config: dict):
     results.append(check_non_negative(df, rules["non_negative"]["collumn"]))
     
     return results
+
+if __name__ == "__main__":
+    base_dir = Path(__file__).parent.parent
+    config_path = base_dir  / "configs" / "variant_04.yml"
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+    normalized_path = base_dir / "data" / "normalized" / "normalized.csv"
+    dq_results= run_dq(normalized_path, config)
+    dq_path = base_dir / "docs" / f"dq_report_{utc_now_tag()}.json"
+    dq_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(dq_path, "w", encoding="utf-8") as f:
+        json.dump(dq_results, f, ensure_ascii=False, indent=2, default=str)
 

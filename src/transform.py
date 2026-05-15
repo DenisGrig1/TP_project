@@ -1,7 +1,13 @@
 import json
 import yaml
+import argparse
 import pandas as pd
 from pathlib import Path
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description="Transform")
+    p.add_argument("--mode", choices=["full", "incremental"], default="full")
+    return p
 
 def TransformToCSV(base_dir: Path, raw_path: Path, config_path: Path, mode: str):
     normalized_name = "normalized.csv"
@@ -27,3 +33,11 @@ def TransformToCSV(base_dir: Path, raw_path: Path, config_path: Path, mode: str)
         df.to_csv(normalized_path, sep=",", index=False, encoding="utf-8")
 
     return normalized_path
+
+if __name__ == "__main__":
+    base_dir = Path(__file__).parent.parent
+    config_path = base_dir / "configs" / "variant_04.yml"
+    raw_path = base_dir / "data" / "raw" / "raw.json"
+    args = build_parser().parse_args()
+    TransformToCSV(base_dir, raw_path, config_path, args.mode)
+    

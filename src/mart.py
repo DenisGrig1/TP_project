@@ -31,3 +31,8 @@ def ToMart(base_dir: Path, normalized_path: Path):
     mart_df.to_csv(mart_path, sep=",", index=False, encoding="utf-8")
     
     return mart_path
+
+if __name__ == "__main__":
+    base_dir = Path(__file__).parent.parent
+    normalized_path = base_dir / "data" / "normalized" / "normalized.csv"
+    ToMart(base_dir, normalized_path)

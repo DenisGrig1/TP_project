@@ -22,3 +22,8 @@ def LoadToSQL(base_dir: Path, mart_path: Path):
     row_count = CheckSQL(table_name, engine)
 
     return row_count
+
+if __name__ == "__main__":
+    base_dir = Path(__file__).parent.parent
+    mart_path = base_dir / "data" / "mart" / "mart_daily.csv"
+    LoadToSQL(base_dir, mart_path)
