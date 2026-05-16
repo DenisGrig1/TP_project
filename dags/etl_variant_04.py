@@ -4,7 +4,6 @@ from airflow.operators.bash import BashOperator
 
 VARIANT = "04"
 PROJECT_DIR = "/opt/project"
-CONFIG_PATH = f"{PROJECT_DIR}/configs/variant_{VARIANT}.yml"
 
 default_args = {
     "owner": "student",
