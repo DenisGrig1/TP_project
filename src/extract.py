@@ -4,7 +4,7 @@ import json
 import argparse
 import pandas as pd
 from pathlib import Path
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 def read_state(path: Path) -> dict:
     if not path.exists():
@@ -60,7 +60,18 @@ def ExtractData(config_path: Path, base_dir: Path, mode: str, state: dict):
 
 if __name__ == "__main__":
     base_dir = Path(__file__).parent.parent
+    
     config_path = base_dir / "configs" / "variant_04.yml"
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+    start_date = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    end_date = datetime.now().strftime("%Y-%m-%d")
+    changed = config
+    changed["api"]["params"]["start_date"] = start_date
+    changed["api"]["params"]["end_date"] = end_date
+    with open(config_path, "w") as cfg:
+        yaml.dump(changed, cfg)
+    
     state_path = base_dir / "data" / "state" / "state.json"
     state = read_state(state_path)
     args = build_parser().parse_args()
