@@ -21,7 +21,7 @@ with DAG(
     tags=["semester2", "etl", f"variant_{VARIANT}"],
 ) as dag:
     extract = BashOperator(
-        task_id="extract",
+        task_id = "extract",
         bash_command=(
             f"cd {PROJECT_DIR} && "
             f"python src/extract.py "
@@ -30,36 +30,36 @@ with DAG(
     )
     
     transform = BashOperator(
-        task_id="transform",
+        task_id = "transform",
         bash_command=(
             f"cd {PROJECT_DIR} && "
             f"python src/transform.py "
             f"--mode full"
         ),
     )
-    
+
+    dq = BashOperator(
+        task_id = "dq",
+        bash_command=(
+            f"cd {PROJECT_DIR} && "
+            f"python src/dq.py"
+        ),
+    )
+
     mart = BashOperator(
-        task_id="mart",
+        task_id = "mart",
         bash_command=(
             f"cd {PROJECT_DIR} && "
             f"python src/mart.py"
         ),
     )
     
-    dq = BashOperator(
-        task_id="dq",
-        bash_command=(
-            f"cd {PROJECT_DIR} && "
-            f"python src/dq.py"
-        ),
-    )
-    
     load = BashOperator(
-        task_id="load",
+        task_id = "load",
         bash_command=(
             f"cd {PROJECT_DIR} && "
             f"python src/load.py"
         ),
     )
 
-    extract >> transform >> mart >> dq >> load
+    extract >> transform >> dq >> mart >> load
