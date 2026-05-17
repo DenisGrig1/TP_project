@@ -6,12 +6,10 @@ def main():
     print("SMOKE TEST - DIAGNOSTIC")
     print("=" * 50)
     
-    # Информация о Python
     print(f"Python executable: {sys.executable}")
     print(f"Python version: {sys.version}")
     print(f"Platform: {sys.platform}")
     
-    # Проверка импортов
     packages = ["pandas", "numpy", "requests", "pyyaml",  
         "sqlalchemy", "psycopg2-binary", "matplotlib", "pytest", 
         "scikit-learn", "argparse", "ipynbname"]
@@ -24,7 +22,6 @@ def main():
             print(f"  ✗ {pkg} - NOT FOUND")
             missing.append(pkg)
         else:
-            # Попробуем импортировать и получить версию
             try:
                 module = importlib.import_module(pkg)
                 version = getattr(module, "__version__", "unknown")
