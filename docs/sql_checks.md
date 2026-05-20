@@ -1,11 +1,11 @@
-#1. Таблица не пуста
+## 1. Таблица не пуста
 
 ```sql
 SELECT COUNT(*) AS row_count
 FROM mart_sql;
 ```
 
-#2. Диапазон дат
+## 2. Диапазон дат
 
 ```sql
 SELECT MIN(date) AS min_date,
@@ -13,7 +13,7 @@ SELECT MIN(date) AS min_date,
 FROM mart_sql;
 ```
 
-#3. NULL в ключевых колонках
+## 3. NULL в ключевых колонках
 
 ```sql
 SELECT
@@ -22,7 +22,7 @@ SELECT
 FROM mart_sql;
 ```
 
-#4. Дубли по бизнес-ключу
+## 4. Дубли по бизнес-ключу
 
 ```sql
 SELECT date, city_id, COUNT(*) AS cnt
@@ -31,7 +31,7 @@ GROUP BY date, city_id
 HAVING COUNT(*) > 1;
 ```
 
-#5. KPI-проверка
+## 5. KPI-проверка
 
 ```sql
 SELECT city_id,
